@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor 3D Interactivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,300 +15,386 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #2c5f5f 0%, #1e3d3d 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 0;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 1200px;
-            width: 100%;
-            padding: 40px;
+        .header {
+            background: rgba(30, 61, 61, 0.95);
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(72, 209, 204, 0.2);
+            padding: 25px 40px;
         }
 
         h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            font-weight: 700;
+            color: #48d1cc;
+            font-size: 1.75em;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+            font-size: 0.9em;
+            font-weight: 400;
         }
 
-        .workspace {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin-top: 30px;
+        .controls-bar {
+            background: rgba(30, 61, 61, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(72, 209, 204, 0.2);
+            padding: 30px 40px;
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
         }
 
-        .controls {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            border-radius: 16px;
-            height: fit-content;
+        .control-section {
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            color: #48d1cc;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-content {
+            display: flex;
+            gap: 25px;
         }
 
         .control-group {
-            margin-bottom: 25px;
+            min-width: 140px;
         }
 
         .control-group label {
             display: block;
-            color: #333;
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
             margin-bottom: 10px;
-            font-size: 0.95em;
+            font-size: 0.85em;
         }
 
         input[type="range"] {
             width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #ddd;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: #667eea;
+            background: linear-gradient(135deg, #48d1cc 0%, #20b2aa 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(72, 209, 204, 0.4);
         }
 
         input[type="range"]::-webkit-slider-thumb:hover {
-            background: #764ba2;
-            transform: scale(1.2);
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(72, 209, 204, 0.6);
         }
 
         .value-display {
-            text-align: right;
-            color: #667eea;
-            font-weight: 600;
-            margin-top: 5px;
-            font-size: 0.9em;
+            text-align: center;
+            color: #48d1cc;
+            font-weight: 500;
+            margin-top: 8px;
+            font-size: 0.85em;
+            font-variant-numeric: tabular-nums;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
+        .filters-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(72, 209, 204, 0.3);
+            background: rgba(30, 61, 61, 0.4);
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            margin-bottom: 10px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover {
+            background: rgba(72, 209, 204, 0.15);
+            border-color: rgba(72, 209, 204, 0.5);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #48d1cc 0%, #20b2aa 100%);
+            border-color: #48d1cc;
+            color: #1e3d3d;
+            font-weight: 600;
+        }
+
+        .actions-section {
+            display: flex;
+            gap: 12px;
+        }
+
+        button.action-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85em;
+            font-family: 'Inter', sans-serif;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #48d1cc 0%, #20b2aa 100%);
+            color: #1e3d3d;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(72, 209, 204, 0.4);
         }
 
         .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-secondary:hover {
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .canvas-container {
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            min-height: 500px;
+            background: #0f2424;
+            min-height: calc(100vh - 280px);
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 60px 40px;
+            position: relative;
         }
 
         canvas {
             max-width: 100%;
-            max-height: 600px;
+            max-height: calc(100vh - 400px);
             display: block;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .upload-zone {
-            border: 3px dashed #667eea;
-            border-radius: 16px;
-            padding: 60px 40px;
+            border: 2px dashed rgba(72, 209, 204, 0.4);
+            border-radius: 12px;
+            padding: 80px 60px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(30, 61, 61, 0.3);
+            max-width: 600px;
         }
 
         .upload-zone:hover {
-            background: rgba(102, 126, 234, 0.1);
-            border-color: #764ba2;
-            transform: scale(1.02);
-        }
-
-        .upload-zone p {
-            color: #667eea;
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-top: 20px;
+            background: rgba(30, 61, 61, 0.5);
+            border-color: rgba(72, 209, 204, 0.6);
+            transform: translateY(-2px);
         }
 
         .upload-icon {
-            font-size: 4em;
-            color: #667eea;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            opacity: 0.6;
+        }
+
+        .upload-zone p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-top: 0;
+        }
+
+        .upload-zone .upload-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9em;
+            margin-top: 12px;
+            font-weight: 400;
         }
 
         input[type="file"] {
             display: none;
         }
 
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
+        .divider {
+            width: 1px;
+            height: 60px;
+            background: rgba(72, 209, 204, 0.2);
+            margin: 0 15px;
         }
 
-        .filter-btn {
-            padding: 10px;
-            border: 2px solid #667eea;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: #667eea;
-        }
+        @media (max-width: 1200px) {
+            .controls-bar {
+                flex-direction: column;
+                gap: 30px;
+            }
 
-        .filter-btn:hover, .filter-btn.active {
-            background: #667eea;
-            color: white;
-            transform: scale(1.05);
-        }
+            .divider {
+                width: 100%;
+                height: 1px;
+                margin: 0;
+            }
 
-        @media (max-width: 968px) {
-            .workspace {
-                grid-template-columns: 1fr;
+            .section-content {
+                flex-wrap: wrap;
             }
         }
 
-        .info-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            display: inline-block;
-            margin-top: 10px;
+        ::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(72, 209, 204, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(72, 209, 204, 0.5);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 Editor 3D Interactivo</h1>
-        <p class="subtitle">Arrastra, rota y aplica efectos profesionales en tiempo real</p>
+    <div class="header">
+        <h1>Advanced Photo Editor</h1>
+        <p class="subtitle">Professional 3D transformation and color grading tools</p>
+    </div>
 
-        <div class="workspace">
-            <div class="controls">
-                <h3 style="color: #667eea; margin-bottom: 20px;">⚙️ Controles</h3>
-                
+    <div class="controls-bar">
+        <div class="control-section">
+            <div class="section-title">Transform</div>
+            <div class="section-content">
                 <div class="control-group">
-                    <label>Rotación X</label>
+                    <label>Rotation X</label>
                     <input type="range" id="rotateX" min="-180" max="180" value="0">
                     <div class="value-display"><span id="rotateXVal">0</span>°</div>
                 </div>
-
                 <div class="control-group">
-                    <label>Rotación Y</label>
+                    <label>Rotation Y</label>
                     <input type="range" id="rotateY" min="-180" max="180" value="0">
                     <div class="value-display"><span id="rotateYVal">0</span>°</div>
                 </div>
-
                 <div class="control-group">
-                    <label>Escala</label>
+                    <label>Scale</label>
                     <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1">
-                    <div class="value-display"><span id="scaleVal">1</span>x</div>
+                    <div class="value-display"><span id="scaleVal">1.0</span>x</div>
                 </div>
-
-                <div class="control-group">
-                    <label>Brillo</label>
-                    <input type="range" id="brightness" min="0" max="200" value="100">
-                    <div class="value-display"><span id="brightnessVal">100</span>%</div>
-                </div>
-
-                <div class="control-group">
-                    <label>Contraste</label>
-                    <input type="range" id="contrast" min="0" max="200" value="100">
-                    <div class="value-display"><span id="contrastVal">100</span>%</div>
-                </div>
-
-                <div class="control-group">
-                    <label>Saturación</label>
-                    <input type="range" id="saturation" min="0" max="200" value="100">
-                    <div class="value-display"><span id="saturationVal">100</span>%</div>
-                </div>
-
-                <div class="control-group">
-                    <label>Desenfoque</label>
-                    <input type="range" id="blur" min="0" max="20" value="0">
-                    <div class="value-display"><span id="blurVal">0</span>px</div>
-                </div>
-
-                <h3 style="color: #667eea; margin: 25px 0 15px;">🎭 Filtros</h3>
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="none">Original</button>
-                    <button class="filter-btn" data-filter="grayscale">B/N</button>
-                    <button class="filter-btn" data-filter="sepia">Sepia</button>
-                    <button class="filter-btn" data-filter="invert">Invertir</button>
-                    <button class="filter-btn" data-filter="vintage">Vintage</button>
-                    <button class="filter-btn" data-filter="warm">Cálido</button>
-                </div>
-
-                <button class="btn-primary" style="margin-top: 25px;" onclick="resetAll()">♻️ Restablecer</button>
-                <button class="btn-primary" onclick="downloadImage()">💾 Descargar</button>
-                <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">📁 Cambiar Imagen</button>
-
-                <div class="info-badge">✨ Proyecto Portfolio 2025</div>
-            </div>
-
-            <div class="canvas-container" id="canvasContainer">
-                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
-                    <div class="upload-icon">📸</div>
-                    <p>Haz clic o arrastra una imagen aquí</p>
-                    <p style="font-size: 0.9em; color: #999; margin-top: 10px;">Soporta JPG, PNG, GIF</p>
-                </div>
-                <canvas id="canvas" style="display: none;"></canvas>
             </div>
         </div>
 
-        <input type="file" id="fileInput" accept="image/*">
+        <div class="divider"></div>
+
+        <div class="control-section">
+            <div class="section-title">Color Grading</div>
+            <div class="section-content">
+                <div class="control-group">
+                    <label>Brightness</label>
+                    <input type="range" id="brightness" min="0" max="200" value="100">
+                    <div class="value-display"><span id="brightnessVal">100</span>%</div>
+                </div>
+                <div class="control-group">
+                    <label>Contrast</label>
+                    <input type="range" id="contrast" min="0" max="200" value="100">
+                    <div class="value-display"><span id="contrastVal">100</span>%</div>
+                </div>
+                <div class="control-group">
+                    <label>Saturation</label>
+                    <input type="range" id="saturation" min="0" max="200" value="100">
+                    <div class="value-display"><span id="saturationVal">100</span>%</div>
+                </div>
+                <div class="control-group">
+                    <label>Blur</label>
+                    <input type="range" id="blur" min="0" max="20" value="0">
+                    <div class="value-display"><span id="blurVal">0</span>px</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="control-section">
+            <div class="section-title">Filters</div>
+            <div class="section-content">
+                <div class="filters-section">
+                    <button class="filter-btn active" data-filter="none">Original</button>
+                    <button class="filter-btn" data-filter="grayscale">Grayscale</button>
+                    <button class="filter-btn" data-filter="sepia">Sepia</button>
+                    <button class="filter-btn" data-filter="invert">Invert</button>
+                    <button class="filter-btn" data-filter="vintage">Vintage</button>
+                    <button class="filter-btn" data-filter="warm">Warm</button>
+                    <button class="filter-btn" data-filter="cool">Cool</button>
+                    <button class="filter-btn" data-filter="dramatic">Dramatic</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="control-section">
+            <div class="section-title">Actions</div>
+            <div class="section-content">
+                <div class="actions-section">
+                    <button class="action-btn btn-primary" onclick="downloadImage()">Export Image</button>
+                    <button class="action-btn btn-secondary" onclick="resetAll()">Reset All</button>
+                    <button class="action-btn btn-secondary" onclick="document.getElementById('fileInput').click()">Load New</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="canvas-container" id="canvasContainer">
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #48d1cc;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>Click or drag to upload image</p>
+            <p class="upload-hint">Supports JPG, PNG, GIF up to 10MB</p>
+        </div>
+        <canvas id="canvas" style="display: none;"></canvas>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*">
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -330,7 +419,8 @@
                 const id = e.target.id;
                 const value = parseFloat(e.target.value);
                 controls[id] = value;
-                document.getElementById(id + 'Val').textContent = value;
+                const displayValue = id === 'scale' ? value.toFixed(1) : Math.round(value);
+                document.getElementById(id + 'Val').textContent = displayValue;
                 drawImage();
             });
         });
@@ -364,16 +454,19 @@
 
         uploadZone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            uploadZone.style.borderColor = '#764ba2';
+            uploadZone.style.borderColor = 'rgba(72, 209, 204, 0.8)';
+            uploadZone.style.background = 'rgba(30, 61, 61, 0.6)';
         });
 
         uploadZone.addEventListener('dragleave', () => {
-            uploadZone.style.borderColor = '#667eea';
+            uploadZone.style.borderColor = 'rgba(72, 209, 204, 0.4)';
+            uploadZone.style.background = 'rgba(30, 61, 61, 0.3)';
         });
 
         uploadZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            uploadZone.style.borderColor = '#667eea';
+            uploadZone.style.borderColor = 'rgba(72, 209, 204, 0.4)';
+            uploadZone.style.background = 'rgba(30, 61, 61, 0.3)';
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
@@ -399,7 +492,6 @@
 
             ctx.translate(canvas.width / 2, canvas.height / 2);
             
-            const perspective = 500;
             const rotX = controls.rotateX * Math.PI / 180;
             const rotY = controls.rotateY * Math.PI / 180;
             
@@ -425,6 +517,12 @@
                     break;
                 case 'warm':
                     filterStr += ' sepia(30%) saturate(140%) brightness(105%)';
+                    break;
+                case 'cool':
+                    filterStr += ' hue-rotate(180deg) saturate(120%)';
+                    break;
+                case 'dramatic':
+                    filterStr += ' contrast(150%) brightness(90%) saturate(130%)';
                     break;
             }
             
@@ -454,10 +552,13 @@
             document.getElementById('saturation').value = 100;
             document.getElementById('blur').value = 0;
 
-            document.querySelectorAll('.value-display span').forEach((span, i) => {
-                const values = [0, 0, 1, 100, 100, 100, 0];
-                span.textContent = values[i];
-            });
+            document.getElementById('rotateXVal').textContent = 0;
+            document.getElementById('rotateYVal').textContent = 0;
+            document.getElementById('scaleVal').textContent = '1.0';
+            document.getElementById('brightnessVal').textContent = 100;
+            document.getElementById('contrastVal').textContent = 100;
+            document.getElementById('saturationVal').textContent = 100;
+            document.getElementById('blurVal').textContent = 0;
 
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             document.querySelector('[data-filter="none"]').classList.add('active');
@@ -467,11 +568,11 @@
 
         function downloadImage() {
             if (!img.src) {
-                alert('¡Primero carga una imagen!');
+                alert('Please load an image first');
                 return;
             }
             const link = document.createElement('a');
-            link.download = 'imagen-editada-3d.png';
+            link.download = 'edited-image-3d.png';
             link.href = canvas.toDataURL();
             link.click();
         }
