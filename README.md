@@ -2,8 +2,6 @@
 
 Un editor de fotos profesional basado en web con transformaciones 3D en tiempo real, ajustes avanzados de color y filtros profesionales. Construido con JavaScript vanilla y la API Canvas de HTML5.
 
-
-
 ## Características
 
 ### Transformaciones 3D
@@ -35,13 +33,9 @@ Un editor de fotos profesional basado en web con transformaciones 3D en tiempo r
 - Diseño responsivo
 - Interfaz limpia y profesional
 
-## Demo
-
-[Demo en Vivo](#) *(Agrega tu link de deployment aquí)*
-
 ## Capturas de Pantalla
 
-*(Agrega capturas de pantalla de tu editor aquí)*
+<img width="1839" height="932" alt="image" src="https://github.com/user-attachments/assets/a9a77f3e-89b8-40b5-951d-ab6e2be6d33a" />
 
 ## Stack Tecnológico
 
@@ -156,7 +150,7 @@ filterStr = `brightness(${brightness}%) contrast(${contrast}%) saturate(${satura
 
 ## Licencia
 
-Este proyecto está licenciado bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para más detalles.
+Este proyecto está licenciado bajo la Licencia MIT 
 
 ## Autor
 
