@@ -7,12 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="styles.css">
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -295,26 +290,26 @@
 </head>
 <body>
     <div class="header">
-        <h1>Advanced Photo Editor</h1>
-        <p class="subtitle">Professional 3D transformation and color grading tools</p>
+        <h1>PIXITO</h1>
+        <p class="subtitle">Herramientas profesionales de transformación 3D y ajuste de color</p>
     </div>
 
     <div class="controls-bar">
         <div class="control-section">
-            <div class="section-title">Transform</div>
+            <div class="section-title">Transformar</div>
             <div class="section-content">
                 <div class="control-group">
-                    <label>Rotation X</label>
+                    <label>Rotación X</label>
                     <input type="range" id="rotateX" min="-180" max="180" value="0">
                     <div class="value-display"><span id="rotateXVal">0</span>°</div>
                 </div>
                 <div class="control-group">
-                    <label>Rotation Y</label>
+                    <label>Rotación Y</label>
                     <input type="range" id="rotateY" min="-180" max="180" value="0">
                     <div class="value-display"><span id="rotateYVal">0</span>°</div>
                 </div>
                 <div class="control-group">
-                    <label>Scale</label>
+                    <label>Escala</label>
                     <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1">
                     <div class="value-display"><span id="scaleVal">1.0</span>x</div>
                 </div>
@@ -324,25 +319,25 @@
         <div class="divider"></div>
 
         <div class="control-section">
-            <div class="section-title">Color Grading</div>
+            <div class="section-title">Ajustes de Color</div>
             <div class="section-content">
                 <div class="control-group">
-                    <label>Brightness</label>
+                    <label>Brillo</label>
                     <input type="range" id="brightness" min="0" max="200" value="100">
                     <div class="value-display"><span id="brightnessVal">100</span>%</div>
                 </div>
                 <div class="control-group">
-                    <label>Contrast</label>
+                    <label>Contraste</label>
                     <input type="range" id="contrast" min="0" max="200" value="100">
                     <div class="value-display"><span id="contrastVal">100</span>%</div>
                 </div>
                 <div class="control-group">
-                    <label>Saturation</label>
+                    <label>Saturación</label>
                     <input type="range" id="saturation" min="0" max="200" value="100">
                     <div class="value-display"><span id="saturationVal">100</span>%</div>
                 </div>
                 <div class="control-group">
-                    <label>Blur</label>
+                    <label>Desenfoque</label>
                     <input type="range" id="blur" min="0" max="20" value="0">
                     <div class="value-display"><span id="blurVal">0</span>px</div>
                 </div>
@@ -352,17 +347,17 @@
         <div class="divider"></div>
 
         <div class="control-section">
-            <div class="section-title">Filters</div>
+            <div class="section-title">Filtros</div>
             <div class="section-content">
                 <div class="filters-section">
                     <button class="filter-btn active" data-filter="none">Original</button>
-                    <button class="filter-btn" data-filter="grayscale">Grayscale</button>
+                    <button class="filter-btn" data-filter="grayscale">Escala de grises</button>
                     <button class="filter-btn" data-filter="sepia">Sepia</button>
-                    <button class="filter-btn" data-filter="invert">Invert</button>
+                    <button class="filter-btn" data-filter="invert">Invertir</button>
                     <button class="filter-btn" data-filter="vintage">Vintage</button>
-                    <button class="filter-btn" data-filter="warm">Warm</button>
-                    <button class="filter-btn" data-filter="cool">Cool</button>
-                    <button class="filter-btn" data-filter="dramatic">Dramatic</button>
+                    <button class="filter-btn" data-filter="warm">Cálido</button>
+                    <button class="filter-btn" data-filter="cool">Frío</button>
+                    <button class="filter-btn" data-filter="dramatic">Dramático</button>
                 </div>
             </div>
         </div>
@@ -370,12 +365,12 @@
         <div class="divider"></div>
 
         <div class="control-section">
-            <div class="section-title">Actions</div>
+            <div class="section-title">Acciones</div>
             <div class="section-content">
                 <div class="actions-section">
-                    <button class="action-btn btn-primary" onclick="downloadImage()">Export Image</button>
-                    <button class="action-btn btn-secondary" onclick="resetAll()">Reset All</button>
-                    <button class="action-btn btn-secondary" onclick="document.getElementById('fileInput').click()">Load New</button>
+                    <button class="action-btn btn-primary" onclick="downloadImage()">Exportar Imagen</button>
+                    <button class="action-btn btn-secondary" onclick="resetAll()">Restablecer Todo</button>
+                    <button class="action-btn btn-secondary" onclick="document.getElementById('fileInput').click()">Cargar Nueva</button>
                 </div>
             </div>
         </div>
@@ -388,19 +383,15 @@
                 <polyline points="17 8 12 3 7 8"></polyline>
                 <line x1="12" y1="3" x2="12" y2="15"></line>
             </svg>
-            <p>Click or drag to upload image</p>
-            <p class="upload-hint">Supports JPG, PNG, GIF up to 10MB</p>
+            <p>Haz clic o arrastra para subir una imagen</p>
+            <p class="upload-hint">Soporta JPG, PNG, GIF hasta 10MB</p>
         </div>
         <canvas id="canvas" style="display: none;"></canvas>
     </div>
 
     <input type="file" id="fileInput" accept="image/*">
 
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const uploadZone = document.getElementById('uploadZone');
-        const fileInput = document.getElementById('fileInput');
+    <script src="script.js">
         let img = new Image();
         let currentFilter = 'none';
 
@@ -568,7 +559,7 @@
 
         function downloadImage() {
             if (!img.src) {
-                alert('Please load an image first');
+                alert('Por favor, carga una imagen primero');
                 return;
             }
             const link = document.createElement('a');
